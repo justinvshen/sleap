@@ -3407,3 +3407,10 @@ def copy_to_clipboard(text: str):
     clipboard = QtWidgets.QApplication.clipboard()
     clipboard.clear(mode=clipboard.Clipboard)
     clipboard.setText(text, mode=clipboard.Clipboard)
+
+
+class UnlinkVideo(EditCommand):
+    
+    @staticmethod
+    def do_action(context: CommandContext, params: dict):
+        pass
