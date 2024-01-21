@@ -27,6 +27,7 @@ from sleap.gui.dataviews import (
     SkeletonNodesTableModel,
     SuggestionsTableModel,
     VideosTableModel,
+    CamerasTableModel,
 )
 from sleap.gui.dialogs.formbuilder import YamlFormWidget
 from sleap.gui.widgets.views import CollapsibleWidget
@@ -566,3 +567,60 @@ class InstancesDock(DockWidget):
         hbw = QWidget()
         hbw.setLayout(hb)
         return hbw
+<<<<<<< Updated upstream
+=======
+
+
+class SessionsDock(DockWidget):
+    def __init__(self, main_window: Optional[QMainWindow]):
+        self.camera_model_type = CamerasTableModel
+        super().__init__(name="Sessions", main_window=main_window, model_type=[self.camera_model_type])
+        
+
+    def lay_everything_out(self) -> None:
+        triangulation_options = self.create_triangulation_options()
+        self.wgt_layout.addWidget(triangulation_options)
+
+    def create_triangulation_options(self) -> QWidget:
+        main_window = self.main_window
+        hb = QHBoxLayout()
+
+        # Add button to triangulate on demand
+        self.add_button(
+            hb,
+            "Triangulate",
+            main_window.process_events_then(main_window.commands.triangulateSession),
+        )
+
+        # Add checkbox and button for "Auto-triangulate"
+        self.auto_align_checkbox = QCheckBox("Auto-Triangulate")
+        self.auto_align_checkbox.stateChanged.connect(
+            lambda x: main_window.state.set("auto_triangulate", x == Qt.Checked)
+        )
+        hb.addWidget(self.auto_align_checkbox)
+
+        hbw = QWidget()
+        hbw.setLayout(hb)
+        return hbw
+    
+    def create_models(self) -> GenericTableModel:
+        main_window = self.main_window
+        self.camera_model = self.camera_model_type(
+            items=main_window.state["selected_session"], context=main_window.commands
+        )
+        
+        return [self.camera_model]
+    
+    def create_tables(self) -> GenericTableView:
+        if self.model is None:
+            self.create_models()
+
+        main_window = self.main_window
+        self.camera_table = GenericTableView(
+            state=main_window.state,
+            row_name="camera",
+            model=self.camera_model,
+        )
+
+        return [self.camera_table]
+>>>>>>> Stashed changes
