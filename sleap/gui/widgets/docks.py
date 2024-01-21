@@ -567,9 +567,6 @@ class InstancesDock(DockWidget):
         hbw = QWidget()
         hbw.setLayout(hb)
         return hbw
-<<<<<<< Updated upstream
-=======
-
 
 class SessionsDock(DockWidget):
     def __init__(self, main_window: Optional[QMainWindow]):
@@ -623,4 +620,3 @@ class SessionsDock(DockWidget):
         )
 
         return [self.camera_table]
->>>>>>> Stashed changes
